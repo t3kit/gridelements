@@ -110,11 +110,16 @@ class LayoutSetup
     protected function loadLayoutSetup($pageId)
     {
         // Load page TSconfig.
-        if (\TYPO3_MODE === 'FE') {
+        // HACK: Disable this check is fixed in TYPO3 Core
+        // https://forge.typo3.org/issues/87068 
+        /*if (\TYPO3_MODE === 'FE') {
             $pageTSconfig = $GLOBALS['TSFE']->getPagesTSconfig();
         } else {
             $pageTSconfig = BackendUtility::getPagesTSconfig($pageId);
-        }
+        }*/
+        
+        $pageTSconfig = BackendUtility::getPagesTSconfig($pageId);
+        
         $excludeLayoutIds = !empty($pageTSconfig['tx_gridelements.']['excludeLayoutIds'])
             ? array_flip(GeneralUtility::trimExplode(',', $pageTSconfig['tx_gridelements.']['excludeLayoutIds']))
             : [];
